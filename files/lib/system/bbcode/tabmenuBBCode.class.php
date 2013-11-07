@@ -145,11 +145,62 @@ class tabmenuBBCode extends AbstractBBCode {
             }
         }
 
+        //iconparse
+        foreach($tabs as $key => $tab){
+            if($tab["icon"]!=""){
+                $iconContent=$tab["icon"];
+                $icon=array();
+                if(strpos($iconContent,'icon-')===false){
+                    $icon["type"]="url";
+                    $icon["string"]=$iconContent;
+                }
+                else
+                {
+//                    $iconContent=str_replace("icon-","",$iconContent);
+//                    $iconparts=explode("/",$iconContent);
+                    $string="icon icon16 ".$iconContent;
+//                    if(isset($iconparts[1])){
+//                        $string.=" icon-".$iconparts[1];
+//                    }
+                    $icon["type"]="icon";
+                    $icon["string"]=$string;
+                }
+                $tabs[$key]["icon"]=$icon;
+            }
+            else
+            {
+                $tabs[$key]["icon"]=array("type"=>"none", "string"=>"");
+            }
 
-
-
-
-
+            if(is_array($tab["content"])){
+                foreach($tab["content"] as $keysub => $subtab){
+                    if($subtab["icon"]!=""){
+                        $iconContent=$subtab["icon"];
+                        $icon=array();
+                        if(strpos($iconContent,'icon:')===false){
+                            $icon["type"]="url";
+                            $icon["string"]=$iconContent;
+                        }
+                        else
+                        {
+                            $iconContent=str_replace("icon:","",$iconContent);
+                            $iconparts=explode("/",$iconContent);
+                            $string="icon icon16 icon-".$iconparts[0];
+                            if(isset($iconparts[1])){
+                                $string.=" icon-".$iconparts[1];
+                            }
+                            $icon["type"]="icon";
+                            $icon["string"]=$string;
+                        }
+                        $tabs[$key]["content"][$keysub]["icon"]=$icon;
+                    }
+                    else
+                    {
+                        $tabs[$key]["content"][$keysub]["icon"]=array("type"=>"none", "string"=>"");
+                    }
+                }
+            }
+        }
 
         // // check if parsing was successful
         if (empty($tabs)) {
@@ -166,8 +217,8 @@ class tabmenuBBCode extends AbstractBBCode {
         }
 
 //        //@todo: delete!!!
-        $debug=print_r($tabs ,true);
-        WCF::getTPL()->assign(array('debug' => $debug));
+//        $debug=print_r($tabs ,true);
+//        WCF::getTPL()->assign(array('debug' => $debug));
 
         if ($parser->getOutputType() == 'text/html') {
             WCF::getTPL()->assign(array('minimal' => false));

@@ -22,12 +22,14 @@ class tabmenuBBCode extends AbstractBBCode {
         $trimmedContent = trim($content);
         $tabs=array();
         // parse possible tabs
-        preg_match_all('~\[tab=[^\[\]\\n]+\]~i', $content, $possibleTabs);
+        preg_match_all('~\[tab=[^\[\]\\n]+\]~i', $content, $possibleTabs,PREG_OFFSET_CAPTURE);
 
         $possibleTabs = $possibleTabs[0];
         if (!empty($possibleTabs)) {
             foreach ($possibleTabs as $key => $possibleTab) {
-                // get tab attributes (see BBCodeParser::buildTagAttributes)
+                $offset=$possibleTab[1];
+                $possibleTab=$possibleTab[0];
+                // get acc attributes (see BBCodeParser::buildTagAttributes)
                 $string = mb_substr($possibleTab, 5, -1);
                 preg_match_all("~(?:^|,)('[^'\\\\]*(?:\\\\.[^'\\\\]*)*'|[^,]*)~", $string, $matches);
                 for ($i = 0, $j = count($matches[1]); $i < $j; $i++) {
@@ -40,13 +42,15 @@ class tabmenuBBCode extends AbstractBBCode {
                         $matches[1][$i] = mb_substr($matches[1][$i], 1, -1);
                     }
                 }
-                // if tab has no title and no icon, we can't use it
+                // if acc has no title and no icon, we can't use it
                 if (strlen($matches[1][0]) > 0 || (isset($matches[1][1]) && strlen($matches[1][1]) > 0)) {
-                    $tabKey = count($tabs);
-                    $tabs[$tabKey] = array(
+                    $accKey = count($tabs);
+                    $tabs[$accKey] = array(
                         'title' => $matches[1][0],
                         'icon' => (isset($matches[1][1]) ? $matches[1][1] : ''),
-                        'content' => null
+                        'content' => null,
+                        'offset' => $offset,
+                        'tag' =>$possibleTab
                     );
                 }
                 else {
@@ -55,90 +59,96 @@ class tabmenuBBCode extends AbstractBBCode {
             }
         }
 
-        // // get tab contents
-        $usedTabTitles = array();
         reset($possibleTabs);
-
-
-        foreach ($tabs as $tabKey => $tabData) {
-            $currentTab = current($possibleTabs);
-            $nextTab = next($possibleTabs);
-            preg_match("~".preg_quote($currentTab,'~')."(.*)".($nextTab ? preg_quote($nextTab,'~') : "$")."~is", $trimmedContent, $match);
-            // avoid an odd "undefined index" error that occurs with specific server configurations and tab menus that contain huge amounts of html code
-            if (isset($match[1])) {
-                $tabContent = preg_replace('~(<br />|\s)*$~i', '', preg_replace('~^(<br />|\s)*~i', '', $match[1]));
+        foreach ($tabs as $accKey => $accData) {
+            $length=strlen($tabs[$accKey]["tag"]);
+            $currOffset=$tabs[$accKey]["offset"];
+            if(isset($tabs[$accKey+1])){
+                $nextOffset=$tabs[$accKey+1]["offset"];
+                $contentBeforeNext=substr($content,0,$nextOffset);
+                $accContent=substr($contentBeforeNext,$currOffset+$length);
             }
-            else {
-                // clear $tabs and leave the parser to return the unparsed bbcode
-                $tabs = array();
-                break;
+            else
+            {
+                $accContent=substr($content,$currOffset+$length);
             }
 
-            // check if title was already used, if content contains any html errors and if the icon url is valid
-            if (in_array($tabData['title'], $usedTabTitles) || (!empty($tabData['icon']) && !preg_match('~^[^?\s]+$~i', $tabData['icon']))) {
-                // clear $tabs and leave the parser to return the unparsed bbcode
-                $tabs = array();
-                break;
+            if(strpos($accContent,"subtab")===false){
+                $tabs[$accKey]['content'] =  $accContent;
             }
-            $usedTabTitles[] = $tabData['title'];
+            else
+            {
 
-            // parse possible sub tabs
-            $subTabs = array();
-            preg_match_all('~\[subtab=[^\[\]\\n]+\]~i', $tabContent, $possibleSubtabs);
-            $possibleSubtabs = $possibleSubtabs[0];
-            //if sub tabs exist, $tabs[][content] holds another array of sub tabs
-            if (!empty($possibleSubtabs)) {
-                foreach ($possibleSubtabs as $key => $possibleSubtab) {
-                    // get sub tab attributes
-                    $string = mb_substr($possibleSubtab, 8, -1);
-                    preg_match_all("~(?:^|,)('[^'\\\\]*(?:\\\\.[^'\\\\]*)*'|[^,]*)~", $string, $matches);
-                    for ($i = 0, $j = count($matches[1]); $i < $j; $i++) {
-                        // trim to allow backwards compatibility with version 1.0.x
-                        $matches[1][$i] = trim($matches[1][$i]);
-                        // remove quotes
-                        if (mb_substr($matches[1][$i], 0, 1) == "'" && mb_substr($matches[1][$i], -1) == "'") {
-                            $matches[1][$i] = str_replace("\'", "'", $matches[1][$i]);
-                            $matches[1][$i] = str_replace("\\\\", "\\", $matches[1][$i]);
-                            $matches[1][$i] = mb_substr($matches[1][$i], 1, -1);
+
+
+                $subtabs=array();
+                $possibleSubTabs=array();
+                preg_match_all('~\[subtab=[^\[\]\\n]+\]~i', $accContent, $possibleSubTabs,PREG_OFFSET_CAPTURE);
+
+
+                $possibleSubTabs = $possibleSubTabs[0];
+                if (!empty($possibleSubTabs)) {
+                    foreach ($possibleSubTabs as $newsubkey => $possibleTab) {
+                        $offset=$possibleTab[1];
+                        $possibleTab=$possibleTab[0];
+                        // get acc attributes (see BBCodeParser::buildTagAttributes)
+                        $string = mb_substr($possibleTab, 8, -1);
+                        preg_match_all("~(?:^|,)('[^'\\\\]*(?:\\\\.[^'\\\\]*)*'|[^,]*)~", $string, $matches);
+                        for ($i = 0, $j = count($matches[1]); $i < $j; $i++) {
+                            // trim to allow backwards compatibility with version 1.0.x
+                            $matches[1][$i] = trim($matches[1][$i]);
+                            // remove quotes
+                            if (mb_substr($matches[1][$i], 0, 1) == "'" && mb_substr($matches[1][$i], -1) == "'") {
+                                $matches[1][$i] = str_replace("\'", "'", $matches[1][$i]);
+                                $matches[1][$i] = str_replace("\\\\", "\\", $matches[1][$i]);
+                                $matches[1][$i] = mb_substr($matches[1][$i], 1, -1);
+                            }
+                        }
+                        // if acc has no title and no icon, we can't use it
+                        if (strlen($matches[1][0]) > 0 || (isset($matches[1][1]) && strlen($matches[1][1]) > 0)) {
+                            $accSubSubKey = count($subtabs);
+                            $subtabs[$accSubSubKey] = array(
+                                'title' => $matches[1][0],
+                                'icon' => (isset($matches[1][1]) ? $matches[1][1] : ''),
+                                'content' => null,
+                                'offset' => $offset,
+                                'tag' =>$possibleTab
+                            );
+                        }
+                        else {
+
+                            unset($possibleSubTabs[$newsubkey]);
                         }
                     }
-                    // if sub tab has no title and no icon, we can't use it
-                    if (strlen($matches[1][0]) > 0 || (isset($matches[1][1]) && strlen($matches[1][1]) > 0)) {
-                        $subTabKey = count($subTabs);
-                        $subTabs[$subTabKey] = array(
-                            'title' => $matches[1][0],
-                            'icon' => (isset($matches[1][1]) ? $matches[1][1] : ''),
-                            'content' => null
-                        );
-                    }
-                    else {
-                        unset($possibleSubtabs[$key]);
-                    }
                 }
 
-                // get sub tab contents
-                $usedSubTabTitles = array();
-                reset($possibleSubtabs);
-                foreach ($subTabs as $subTabKey => $subTabData) {
-                    $currentSubtab = current($possibleSubtabs);
-                    $nextSubtab = next($possibleSubtabs);
-                    preg_match("~".preg_quote($currentSubtab,'~')."(.*)".($nextSubtab ? preg_quote($nextSubtab,'~') : "$")."~is", $tabContent, $match);
-                    $subTabContent = preg_replace('~(<br />|\s)*$~i', '', preg_replace('~^(<br />|\s)*~i', '', $match[1]));
-                    $subTabs[$subTabKey]['content'] = $subTabContent;
 
-                    // check if title was already used, if content contains any html errors and if the icon url is valid
-                    if (in_array($subTabData['title'], $usedSubTabTitles) || (!empty($subTabData['icon']) && !preg_match('~^[^?\s]+$~i', $subTabData['icon']))) {
-                        // clear $tabs and leave the parser to return the unparsed bbcode
-                        $tabs = array();
-                        break 2;
+
+                foreach ($subtabs as $subKey => $subData) {
+                    $length=strlen($subtabs[$subKey]["tag"]);
+                    $currOffset=$subtabs[$subKey]["offset"];
+                    if(isset($subtabs[$subKey+1])){
+                        $nextOffset=$subtabs[$subKey+1]["offset"];
+                        $contentBeforeNext=substr($accContent,0,$nextOffset);
+                        $subContent=substr($contentBeforeNext,$currOffset+$length);
                     }
-                    $usedSubTabTitles[] = $subTabData['title'];
+                    else
+                    {
+                        $subContent=substr($accContent,$currOffset+$length);
+                    }
+                    $subtabs[$subKey]['content'] =  $subContent;
                 }
+
+                //
+                $tabs[$accKey]['content'] = $subtabs;
+
             }
-
-            // otherwise $tabs[][content] contains the content string
-            $tabs[$tabKey]['content'] = (empty($subTabs) ? $tabContent : $subTabs);
         }
+
+
+
+
+
 
 
         // // check if parsing was successful
@@ -156,8 +166,8 @@ class tabmenuBBCode extends AbstractBBCode {
         }
 
 //        //@todo: delete!!!
-//        $debug=print_r($tabs,true);
-//        WCF::getTPL()->assign(array('debug' => $debug));
+        $debug=print_r($tabs ,true);
+        WCF::getTPL()->assign(array('debug' => $debug));
 
         if ($parser->getOutputType() == 'text/html') {
             WCF::getTPL()->assign(array('minimal' => false));

@@ -6,7 +6,7 @@
         <nav class="tabMenu tabMenuFix">
             <ul>
                 {foreach from=$tabs key=tabKey item=tab}
-                    <li><a href="{@$__wcf->getAnchor($tab[id])}" title="{$tab.id}"><img class="iconTabMenuFix" src="{@$tab.icon}" /> {$tab.title}</a></li>
+                    <li><a href="{@$__wcf->getAnchor($tab[id])}" title="{$tab.id}" rel="nofollow"><img class="iconTabMenuFix" src="{@$tab.icon}" /> {$tab.title}</a></li>
                 {/foreach}
             </ul>
         </nav>
@@ -16,7 +16,7 @@
                     <nav class="menu">
                         <ul>
                             {foreach from=$tab.content key=subTabKey item=subTab}
-                                <li><a href="{@$__wcf->getAnchor($subTab[id])}"><img class="subiconTabMenuFix" src="{@$tab.icon}" /> {$subTab.title}</a></li>
+                                <li><a href="{@$__wcf->getAnchor($subTab[id])}" rel="nofollow"><img class="subiconTabMenuFix" src="{@$tab.icon}" /> {$subTab.title}</a></li>
                             {/foreach}
                         </ul>
                     </nav>

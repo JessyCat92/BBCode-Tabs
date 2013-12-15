@@ -20,7 +20,7 @@
                 {if $tab.content|is_array}
                     <div id="{$tab.id}" class="container containerPadding tabMenuContainer tabMenuContent">
                         <nav class="menu">
-                            <ul>
+                            <ul> 
                                 {foreach from=$tab.content key=subTabKey item=subTab}
                                     {if $subTab.icon.type=='url'}
                                         <li><a href="{@$__wcf->getAnchor($subTab[id])}" title="{$subTab.title}" rel="nofollow"><img class="iconTabMenuFix" src="{@$subTab.icon.string}" /> {$subTab.title}</a></li>

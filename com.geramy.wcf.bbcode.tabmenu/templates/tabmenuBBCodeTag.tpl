@@ -1,7 +1,7 @@
 {if $minimal}
     {$minimal}
 {else}
-    <div id="tabMenuFix">
+    <div id="tabMenuFix" class="noTabProxy tabBBCodeMenu">
         <div class="tabMenuContainer">
             <nav class="tabMenu tabMenuFix">
                 <ul>
@@ -54,6 +54,12 @@
         if (typeof(TabMenuLoaded) != "undefined" && TabMenuLoaded !== null) {
             WCF.TabMenu.init();
         }
+
+        $(".noTabProxy div").each(function(){
+            var id=$(this).attr("id");
+            WCF.User.Profile.TabMenu.prototype._hasContent[id]=true;
+        });
+
         //]]>
     </script>
 

@@ -2,7 +2,7 @@
 <data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com http://www.woltlab.com/XSD/maelstrom/bbcode.xsd">
     <import>
         <bbcode name="tabmenu">
-            <classname>wcf\system\bbcode\tabmenuBBCode</classname>
+            <classname>wcf\system\bbcode\TabmenuBBCode</classname>
             <wysiwygicon>tabmenuBBCodeIcon.png</wysiwygicon>
             <buttonlabel>wcf.bbcode.buttonTabMenu</buttonlabel>
             <allowedchildren>all</allowedchildren>

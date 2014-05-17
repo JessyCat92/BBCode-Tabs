@@ -5,9 +5,8 @@
         <packagename language="en"><![CDATA[bbcode tabmenu]]></packagename>
         <packagedescription language="de"><![CDATA[Fügt ein Tabmenü-BBCode hinzu]]></packagedescription>
         <packagedescription language="en"><![CDATA[Adds an tabmenu bbcode]]></packagedescription>
-        <version>1.0.1</version>
-        <date>2014-07-05</date>
-        <plugin>com.woltlab.wcf.bbcode</plugin>
+        <version>1.0.2</version>
+        <date>2014-17-05</date>
     </packageinformation>
 
     <authorinformation>
@@ -27,6 +26,10 @@
     </instructions>
 
     <instructions type="update" fromversion="1.0.0">
+        <instruction type="file">files.tar</instruction>
+        <instruction type="template">templates.tar</instruction>
+    </instructions>
+	<instructions type="update" fromversion="1.0.1">
         <instruction type="file">files.tar</instruction>
         <instruction type="template">templates.tar</instruction>
     </instructions>

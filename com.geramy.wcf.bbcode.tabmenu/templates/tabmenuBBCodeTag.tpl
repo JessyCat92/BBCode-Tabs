@@ -49,7 +49,7 @@
             {/foreach}
         </div>
     </div>
-    <script>
+    <script data-relocate="true">
         //<![CDATA[
         if (typeof(TabMenuLoaded) != "undefined" && TabMenuLoaded !== null) {
             WCF.TabMenu.init();

@@ -5,15 +5,15 @@ use wcf\system\WCF;
 /**
  * Parses the tabmenuBBCode bbcode tag.
  *
- * @package	com.geramy.wcf.progressBarBBCode.bbcode
- * @copyright	geramy
- * @author	geramy (mit Hilfe von anderen BBcode Plugins aufgebaut)
+ * @package	com.geramy.wcf.tabmenu.bbcode
+ * @copyright	geramy, nerdus
+ * @author	nerdus, geramy
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @category	WCF
  * @parameter
  * @usage: [tabmenu][tab='name','icon']contentab1[tab='name2','icon2'][subtab='name','icon']text21[/tabmenu]
  */
-class tabmenuBBCode extends AbstractBBCode {
+class TabmenuBBCode extends AbstractBBCode {
     /**
      * @see	wcf\system\bbcode\IBBCode::getParsedTag()
      */

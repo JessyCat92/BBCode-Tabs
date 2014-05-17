@@ -5,11 +5,11 @@ use wcf\system\WCF;
 /**
  * Parses the tabmenuBBCode bbcode tag.
  *
- * @package	com.geramy.wcf.tabmenu.bbcode
- * @copyright	geramy, nerdus
- * @author	nerdus, geramy
- * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
- * @category	WCF
+ * @package	com.geramy.wcf.progressBarBBCode.bbcode
+ * @author	Nerdus, Changes by: Geramy
+ * @copyright 2010 Bergwerk
+ * @license	Creative Commons - Attribution-Noncommercial-Share Alike 3.0 Unported <http://creativecommons.org/licenses/by-nc-sa/3.0/>
+ * @category WCF
  * @parameter
  * @usage: [tabmenu][tab='name','icon']contentab1[tab='name2','icon2'][subtab='name','icon']text21[/tabmenu]
  */

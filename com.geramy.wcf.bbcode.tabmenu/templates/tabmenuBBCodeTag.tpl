@@ -49,16 +49,19 @@
             {/foreach}
         </div>
     </div>
-    <script data-relocate="true">
-        //<![CDATA[
-        if (typeof(TabMenuLoaded) != "undefined" && TabMenuLoaded !== null) {
-            WCF.TabMenu.init();
-        }
+	
+	<script>
+	//<![CDATA[
+            WCF.TabMenu.init(); 
+	//]]>
+    </script>
 
-        $(".noTabProxy div").each(function(){
-            var id=$(this).attr("id");
-            WCF.User.Profile.TabMenu.prototype._hasContent[id]=true;
-        });
+	<script data-relocate="true">
+	//<![CDATA[
+			$(".noTabProxy div").each(function(){
+				var id=$(this).attr("id");
+				WCF.User.Profile.TabMenu.prototype._hasContent[id]=true;
+			});
 
         //]]>
     </script>

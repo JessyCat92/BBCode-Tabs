@@ -177,13 +177,13 @@ class TabmenuBBCode extends AbstractBBCode {
                     if($subtab["icon"]!=""){
                         $iconContent=$subtab["icon"];
                         $icon=array();
-                        if(strpos($iconContent,'icon:')===false){
+                        if(strpos($iconContent,'icon-')===false){
                             $icon["type"]="url";
                             $icon["string"]=$iconContent;
                         }
                         else
                         {
-                            $iconContent=str_replace("icon:","",$iconContent);
+                            $iconContent=str_replace("icon-","",$iconContent);
                             $iconparts=explode("/",$iconContent);
                             $string="icon icon16 icon-".$iconparts[0];
                             if(isset($iconparts[1])){

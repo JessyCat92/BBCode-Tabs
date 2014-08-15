@@ -50,14 +50,10 @@
         </div>
     </div>
 	
-	<script>
-	//<![CDATA[
-            WCF.TabMenu.init(); 
-	//]]>
-    </script>
 
 	<script data-relocate="true">
 	//<![CDATA[
+            WCF.TabMenu.init(); 
 			$(".noTabProxy div").each(function(){
 				var id=$(this).attr("id");
 				WCF.User.Profile.TabMenu.prototype._hasContent[id]=true;

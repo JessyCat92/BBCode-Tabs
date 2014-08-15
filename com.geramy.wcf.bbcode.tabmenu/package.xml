@@ -5,7 +5,7 @@
         <packagename language="en"><![CDATA[bbcode tabmenu]]></packagename>
         <packagedescription language="de"><![CDATA[Fügt ein Tabmenü-BBCode hinzu]]></packagedescription>
         <packagedescription language="en"><![CDATA[Adds an tabmenu bbcode]]></packagedescription>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
         <date>2014-05-17</date>
     </packageinformation>
 
@@ -31,6 +31,10 @@
     </instructions>
 	
 	<instructions type="update" fromversion="1.0.1">
+        <instruction type="file">files.tar</instruction>
+        <instruction type="template">templates.tar</instruction>
+    </instructions>
+	<instructions type="update" fromversion="1.0.2">
         <instruction type="file">files.tar</instruction>
         <instruction type="template">templates.tar</instruction>
     </instructions>

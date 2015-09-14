@@ -53,12 +53,13 @@
 
 	<script data-relocate="true">
 	//<![CDATA[
+		$(document).ready(function(){
             WCF.TabMenu.init(); 
 			$(".noTabProxy div").each(function(){
 				var id=$(this).attr("id");
 				WCF.User.Profile.TabMenu.prototype._hasContent[id]=true;
 			});
-
+		});
         //]]>
     </script>
 

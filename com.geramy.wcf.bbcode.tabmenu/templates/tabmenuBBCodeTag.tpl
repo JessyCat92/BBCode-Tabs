@@ -59,6 +59,14 @@
 				var id=$(this).attr("id");
 				WCF.User.Profile.TabMenu.prototype._hasContent[id]=true;
 			});
+			
+			$(".spoilerBox").each(function(){
+				$(this).find(".jsSpoilerToggle").click(function(){
+					if ($(this).hasClass("active")) {
+						$(window).trigger('resize');
+					}	
+				});
+			});
 		});
         //]]>
     </script>

@@ -230,6 +230,8 @@ class TabmenuBBCode extends AbstractBBCode {
             if(is_array($tabs[0]["content"])){
                 if (isset($tabs[0]["content"][0])) {
                     $tabs[0]["content"]=$tabs[0]["content"][0]["content"];
+                } else {
+                    $tabs[0]["content"]="~~~~~~~~~";
                 }
             }
 

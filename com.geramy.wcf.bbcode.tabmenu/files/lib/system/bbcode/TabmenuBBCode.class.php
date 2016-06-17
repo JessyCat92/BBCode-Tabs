@@ -228,7 +228,9 @@ class TabmenuBBCode extends AbstractBBCode {
         else{
 
             if(is_array($tabs[0]["content"])){
-                $tabs[0]["content"]=$tabs[0]["content"][0]["content"];
+                if (isset($tabs[0]["content"][0])) {
+                    $tabs[0]["content"]=$tabs[0]["content"][0]["content"];
+                }
             }
 
             WCF::getTPL()->assign(array('minimal' => "[Tabmenu: ".$tabs[0]["title"]."] ".$tabs[0]["content"]));

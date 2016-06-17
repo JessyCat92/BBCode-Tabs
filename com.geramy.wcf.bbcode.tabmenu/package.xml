@@ -5,8 +5,8 @@
         <packagename language="en"><![CDATA[bbcode tabmenu]]></packagename>
         <packagedescription language="de"><![CDATA[Fügt ein Tabmenü-BBCode hinzu]]></packagedescription>
         <packagedescription language="en"><![CDATA[Adds an tabmenu bbcode]]></packagedescription>
-        <version>1.0.8</version>
-        <date>2016-02-08</date>
+        <version>1.0.9</version>
+        <date>2016-06-17</date>
     </packageinformation>
 
     <authorinformation>
@@ -29,39 +29,11 @@
         <instruction type="language">language/*.xml</instruction>
     </instructions>
 
-    <instructions type="update" fromversion="1.0.0">
+    <instructions type="update" fromversion="*">
         <instruction type="file">files.tar</instruction>
         <instruction type="template">templates.tar</instruction>
-        <instruction type="templateListener">xml/templateListener.xml</instruction>
+        <instruction type="bbcode">xml/bbcode.xml</instruction>
+        <instruction type="language">language/*.xml</instruction>
     </instructions>
 	
-	<instructions type="update" fromversion="1.0.1">
-        <instruction type="file">files.tar</instruction>
-        <instruction type="template">templates.tar</instruction>
-        <instruction type="templateListener">xml/templateListener.xml</instruction>
-    </instructions>
-	<instructions type="update" fromversion="1.0.2">
-        <instruction type="file">files.tar</instruction>
-        <instruction type="template">templates.tar</instruction>
-        <instruction type="templateListener">xml/templateListener.xml</instruction>
-    </instructions>
-	<instructions type="update" fromversion="1.0.3">
-        <instruction type="file">files.tar</instruction>
-        <instruction type="template">templates.tar</instruction>
-        <instruction type="templateListener">xml/templateListener.xml</instruction>
-    </instructions>
-    <instructions type="update" fromversion="1.0.4">
-        <instruction type="file">files.tar</instruction>
-        <instruction type="template">templates.tar</instruction>
-    </instructions>
-    <instructions type="update" fromversion="1.0.5">
-        <instruction type="file">files.tar</instruction>
-        <instruction type="template">templates.tar</instruction>
-    </instructions>
-    <instructions type="update" fromversion="1.0.6">
-        <instruction type="template">templates.tar</instruction>
-    </instructions>
-    <instructions type="update" fromversion="1.0.7">
-        <instruction type="template">templates.tar</instruction>
-    </instructions>
 </package>
